@@ -20,11 +20,11 @@ int main(u16 argc, char** argv)
 	case COMPRESS:
 		if (clubCompress(argv[2]))
 		{
-			std::printf("Compressed %s -> %s.z successfully.", argv[2], argv[2]);
+			std::printf("Compressed %s -> %s.z successfully.\n", argv[2], argv[2]);
 		}
 		else
 		{
-			std::printf("Error while compressing file %s", argv[2]);
+			std::printf("Error while compressing file %s\n", argv[2]);
 			return 1;
 		}
 		break;
@@ -32,11 +32,11 @@ int main(u16 argc, char** argv)
 	case DECOMPRESS:
 		if (clubDecompress(argv[2]))
 		{
-			std::printf("Decompressed %s -> %s.z successfully.", argv[2], argv[2]);
+			std::printf("Decompressed %s -> %s.z successfully.\n", argv[2], argv[2]);
 		}
 		else
 		{
-			std::printf("Error while decompressing file %s", argv[2]);
+			std::printf("Error while decompressing file %s\n", argv[2]);
 			return 1;
 		}
 		break;

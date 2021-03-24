@@ -31,10 +31,12 @@ bool clubCompress(char* pName)
 	// Close stream
 	ifs.close();
 
-	// Deflated data buffer
-	char* pNewFile = new char[fileSize];
-	// Setup z_stream
+	// Create stream
 	z_streamp pStrm = new z_stream();
+	// Deflated data buffer
+	u32 deflateEstimate = deflateBound(pStrm, fileSize);
+	char* pNewFile = new char[deflateEstimate];
+	// Setup z_stream
 	pStrm->next_in = (Bytef*)pFile;
 	pStrm->avail_in = fileSize;
 	pStrm->next_out = (Bytef*)pNewFile;
@@ -51,7 +53,7 @@ bool clubCompress(char* pName)
 	std::string newPath = pName;
 	newPath += ".z";
 
-	// Open output stream*
+	// Open output stream
 	std::ofstream ofs(newPath, std::ios::binary);
 	// Validate stream
 	if (!ofs.is_open())
@@ -61,9 +63,14 @@ bool clubCompress(char* pName)
 	}
 	// Write new file (size = total bytes written by z_stream)
 	ofs.write(pNewFile, pStrm->total_out);
+
+	// Write uncompressed filesize (WSC expects this at EOF)
+	// Data should be in little-endian (Wii U)
+	ofs.write(reinterpret_cast<char *>(&fileSize), sizeof(fileSize));
+
 	// Close stream
 	ofs.close();
-
+	// Free memory
 	delete[] pNewFile;
 
 	return true;

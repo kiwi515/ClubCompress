@@ -34,23 +34,24 @@ bool clubCompress(char* pName)
 	// Deflated data buffer
 	char* pNewFile = new char[fileSize];
 	// Setup z_stream
-	z_stream zs;
-	zs.next_in = (Bytef*)pFile;
-	zs.avail_in = fileSize;
-	zs.next_out = (Bytef*)pNewFile;
-	zs.avail_out = fileSize;
+	z_streamp pStrm = new z_stream();
+	pStrm->next_in = (Bytef*)pFile;
+	pStrm->avail_in = fileSize;
+	pStrm->next_out = (Bytef*)pNewFile;
+	pStrm->avail_out = fileSize;
 
 	// Compress (deflate)
-	deflateInit(&zs, Z_BEST_COMPRESSION);
-	deflate(&zs, Z_FINISH);
-	deflateEnd(&zs);
+	deflateInit(pStrm, Z_DEFAULT_COMPRESSION);
+	deflate(pStrm, Z_FINISH);
+	deflateEnd(pStrm);
+	// Original file buffer no longer needed
 	delete[] pFile;
 
 	// New file path (previous name + ".z" extension)
 	std::string newPath = pName;
 	newPath += ".z";
 
-	// Open output stream
+	// Open output stream*
 	std::ofstream ofs(newPath, std::ios::binary);
 	// Validate stream
 	if (!ofs.is_open())
@@ -59,10 +60,11 @@ bool clubCompress(char* pName)
 		return false;
 	}
 	// Write new file (size = total bytes written by z_stream)
-	ofs.write(pNewFile, zs.total_out);
-	delete[] pNewFile;
+	ofs.write(pNewFile, pStrm->total_out);
 	// Close stream
 	ofs.close();
+
+	delete[] pNewFile;
 
 	return true;
 }

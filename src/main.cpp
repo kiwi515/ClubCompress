@@ -1,6 +1,8 @@
 #include <iostream>
+#include <cstdio>
 #include "zlib/zlib.h"
 #include "types.h"
+#include "compression.h"
 
 Operation_t getOperation(u16, char**);
 void showUsage();
@@ -14,14 +16,31 @@ int main(u16 argc, char** argv)
 	case INVALID:
 		showUsage();
 		return 1;
+
 	case COMPRESS:
-		// do compress
-		std::cout << "Compress " << argv[1] << std::endl;
+		if (clubCompress(argv[2]))
+		{
+			std::printf("Compressed %s -> %s.z successfully.", argv[2], argv[2]);
+		}
+		else
+		{
+			std::printf("Error while compressing file %s", argv[2]);
+			return 1;
+		}
 		break;
+
 	case DECOMPRESS:
-		// do decompress
-		std::cout << "Decompress " << argv[1] << std::endl;
+		if (clubDecompress(argv[2]))
+		{
+			std::printf("Decompressed %s -> %s.z successfully.", argv[2], argv[2]);
+		}
+		else
+		{
+			std::printf("Error while decompressing file %s", argv[2]);
+			return 1;
+		}
 		break;
+
 	default:
 		break;
 	}

@@ -26,6 +26,9 @@
     <ClInclude Include="src\zlib\zlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\zlib\zlib.lib" />

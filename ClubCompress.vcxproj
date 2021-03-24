@@ -148,6 +148,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\types.h" />
     <ClInclude Include="src\zlib\zconf.h" />
     <ClInclude Include="src\zlib\zlib.h" />
   </ItemGroup>

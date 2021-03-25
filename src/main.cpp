@@ -18,7 +18,7 @@ int main(u16 argc, char** argv)
 		return 1;
 
 	case COMPRESS:
-		if (clubCompress(argv[2]) == Z_OK)
+		if (clubCompress(argv[2]))
 		{
 			std::printf("Compressed file %s -> %s.z successfully.\n", argv[2], argv[2]);
 			break;
@@ -26,7 +26,7 @@ int main(u16 argc, char** argv)
 		return 1;
 
 	case DECOMPRESS:
-		if (clubDecompress(argv[2]) == Z_OK)
+		if (clubDecompress(argv[2]))
 		{
 			std::printf("Decompressed file %s -> %s.z successfully.\n", argv[2], argv[2]);
 			break;
